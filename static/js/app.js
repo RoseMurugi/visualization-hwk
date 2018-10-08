@@ -46,12 +46,21 @@ function buildCharts(sample) {
     var data = [trace1];
 
     var layout = {
-      xaxis: { title: "OTU ID"},
+      title: `Belly Button Bacteria Bubble Chart; Sample ${sample}`,
+      showlegend: false,
+      xaxis: {
+        title:'otu_ids'
+      },
+      yaxis: {
+        title:'Value'
+      }
     };
 
     Plotly.newPlot('bubble', data, layout);
    
     // @TODO: Build a Pie Chart
+    // HINT: You will need to use slice() to grab the top 10 sample_values,
+    // otu_ids, and labels (10 each)
     d3.json(url).then(function(data) {  
     var pie_values = data.sample_values.slice(0,10);
       var pie_labels = data.otu_ids.slice(0,10);
