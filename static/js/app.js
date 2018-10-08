@@ -13,18 +13,58 @@ function buildMetadata(sample) {
 
     // BONUS: Build the Gauge Chart
     // buildGauge(data.WFREQ);
+    // console.log(JSON.stringify(sample));
 }
 
 function buildCharts(sample) {
+  var pieplace=d3.select("#pie"); 
+  d3.json(`/samples/${sample}`).then((datad)=>{
+    var aid=datad["otu_ids"];
+    var alb=datad["otu_labels"];
+    var asv=datad["sample_values"];
+    var ids=datad["otu_ids"].slice(0,10);
+    var lb=datad["otu_labels"].slice(0,10);
+    var sv=datad["sample_values"].slice(0,10);
+    console.log(sample)
+    console.log(datad);
+    console.log(ids);
+    console.log(lb);
+    console.log(sv);
+    var trace1 = {
+    labels: ids,
+    values: sv,
+    hovertext:lb,
+    type: 'pie'
+      };
+    var trace2={
+      x:aid,
+      y:asv,
+      hovertext:alb,
+      mode:"markers",
+      marker:{
+        size:asv,
+        color:aid
+      }
+    }
+var data = [trace1];
+var data2=[trace2];
 
+Plotly.newPlot("pie", data);
+Plotly.newPlot("bubble", data2);
+    
+
+   
+  });
   // @TODO: Use `d3.json` to fetch the sample data for the plots
 
     // @TODO: Build a Bubble Chart using the sample data
 
     // @TODO: Build a Pie Chart
     // HINT: You will need to use slice() to grab the top 10 sample_values,
+    // const left = names.slice(0, 2);
     // otu_ids, and labels (10 each).
 }
+// id.append(h2).text.(retuned.json)
 
 function init() {
   // Grab a reference to the dropdown select element
@@ -41,6 +81,7 @@ function init() {
 
     // Use the first sample from the list to build the initial plots
     const firstSample = sampleNames[0];
+    // console.log(firstSample);
     buildCharts(firstSample);
     buildMetadata(firstSample);
   });
